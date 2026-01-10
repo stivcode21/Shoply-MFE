@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "name": "Ana Torres",
+    "email": "ana@demo.com",
+    "password": "demo123",
+    "role": "client"
+  },
+  {
+    "id": 2,
+    "name": "Luis Vega",
+    "email": "luis@demo.com",
+    "password": "clave123",
+    "role": "rider"
+  }
+]
