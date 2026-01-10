@@ -1,0 +1,24 @@
+{
+  "name": "microfront",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:all": "npm run dev --workspaces --if-present --parallel",
+    "build:all": "npm run build --workspaces"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "zustand": "^5.0.9"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.18",
+    "tailwindcss": "^4.1.18"
+  }
+}
