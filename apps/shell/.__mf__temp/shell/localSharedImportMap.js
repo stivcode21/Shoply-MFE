@@ -4,6 +4,11 @@
     import {loadShare} from "@module-federation/runtime";
     const importMap = {
       
+        "@reduxjs/toolkit": async () => {
+          let pkg = await import("__mf__virtual/shell__prebuild___mf_0_reduxjs_mf_1_toolkit__prebuild__.js");
+            return pkg;
+        }
+      ,
         "react": async () => {
           let pkg = await import("__mf__virtual/shell__prebuild__react__prebuild__.js");
             return pkg;
@@ -14,14 +19,44 @@
             return pkg;
         }
       ,
-        "zustand": async () => {
-          let pkg = await import("__mf__virtual/shell__prebuild__zustand__prebuild__.js");
+        "react-redux": async () => {
+          let pkg = await import("__mf__virtual/shell__prebuild__react_mf_2_redux__prebuild__.js");
             return pkg;
         }
       
     }
       const usedShared = {
       
+          "@reduxjs/toolkit": {
+            name: "@reduxjs/toolkit",
+            version: "2.11.2",
+            scope: ["default"],
+            loaded: false,
+            from: "shell",
+            async get () {
+              if (false) {
+                throw new Error(`Shared module '${"@reduxjs/toolkit"}' must be provided by host`);
+              }
+              usedShared["@reduxjs/toolkit"].loaded = true
+              const {"@reduxjs/toolkit": pkgDynamicImport} = importMap
+              const res = await pkgDynamicImport()
+              const exportModule = {...res}
+              // All npm packages pre-built by vite will be converted to esm
+              Object.defineProperty(exportModule, "__esModule", {
+                value: true,
+                enumerable: false
+              })
+              return function () {
+                return exportModule
+              }
+            },
+            shareConfig: {
+              singleton: true,
+              requiredVersion: "^2.11.2",
+              
+            }
+          }
+        ,
           "react": {
             name: "react",
             version: "19.2.3",
@@ -82,18 +117,18 @@
             }
           }
         ,
-          "zustand": {
-            name: "zustand",
-            version: "5.0.9",
+          "react-redux": {
+            name: "react-redux",
+            version: "9.2.0",
             scope: ["default"],
             loaded: false,
             from: "shell",
             async get () {
               if (false) {
-                throw new Error(`Shared module '${"zustand"}' must be provided by host`);
+                throw new Error(`Shared module '${"react-redux"}' must be provided by host`);
               }
-              usedShared["zustand"].loaded = true
-              const {"zustand": pkgDynamicImport} = importMap
+              usedShared["react-redux"].loaded = true
+              const {"react-redux": pkgDynamicImport} = importMap
               const res = await pkgDynamicImport()
               const exportModule = {...res}
               // All npm packages pre-built by vite will be converted to esm
@@ -107,7 +142,7 @@
             },
             shareConfig: {
               singleton: true,
-              requiredVersion: "^5.0.9",
+              requiredVersion: "^9.2.0",
               
             }
           }

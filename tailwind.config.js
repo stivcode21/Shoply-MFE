@@ -3,6 +3,9 @@ module.exports = {
   content: ["./apps/**/*.{html,js,jsx,ts,tsx}", "./libs/**/*.{js,jsx,ts,tsx,json}"],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["Poppins", "Segoe UI", "sans-serif"],
+      },
       keyframes: {
         rise: {
           "0%": { opacity: "0", transform: "translateY(18px)" },

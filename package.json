@@ -8,14 +8,18 @@
     "packages/*"
   ],
   "scripts": {
-    "dev:all": "npm run dev --workspaces --if-present --parallel",
-    "build:all": "npm run build --workspaces"
+    "dev:shell": "npm run dev --workspace=shell",
+    "dev:cart": "npm run dev --workspace=micro-cart",
+    "dev:login": "npm run dev --workspace=micro-login",
+    "dev:sidebar": "npm run dev --workspace=micro-sidebar",
+    "dev:all": "npm run dev --workspace=shell & npm run dev --workspace=micro-login & npm run dev --workspace=micro-sidebar & npm run dev --workspace=micro-cart"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "zustand": "^5.0.9"
+    "lucide-react": "^0.562.0",
+    "scheduler": "^0.27.0"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.18",

@@ -9,6 +9,7 @@ __mf__virtual/
 **/__mf__virtual/
 **/__mf__prebuild__/
 **/__mf__shared__/
+**/localSharedImportMap.js
 **/__mf__runtime__/
 *.log
 npm-debug.log*
