@@ -9,13 +9,21 @@ export default defineConfig({
     federation({
       name: "microLogin",
       filename: "remoteEntry.js",
+      remotes: {
+        shell: {
+          type: "module",
+          name: "shell",
+          entry: "http://localhost:3000/remoteEntry.js",
+        },
+      },
       exposes: {
         "./App": "./src/App.jsx",
       },
       shared: {
         react: { singleton: true, requiredVersion: false },
         "react-dom": { singleton: true, requiredVersion: false },
-        zustand: { singleton: true, requiredVersion: false },
+        "@reduxjs/toolkit": { singleton: true, requiredVersion: false },
+        "react-redux": { singleton: true, requiredVersion: false },
       },
     }),
   ],
