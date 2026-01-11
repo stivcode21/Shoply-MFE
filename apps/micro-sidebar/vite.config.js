@@ -2,36 +2,23 @@ import { defineConfig } from "vite";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { federation } from "@module-federation/vite";
+
 export default defineConfig({
   plugins: [
     tailwindcss(),
     react(),
     federation({
-      name: "shell",
+      name: "microSidebar",
       filename: "remoteEntry.js",
-      exposes: {
-        "./GlobalLoader": "./src/components/GlobalLoader.jsx",
-        "./AuthProvider": "./src/auth/AuthProvider.jsx",
-        "./useAuth": "./src/auth/useAuth.js",
-        "./CartStore": "./src/store/cart/CartStore.js",
-        "./storeHooks": "./src/store/hooks.js",
-      },
       remotes: {
-        microLogin: {
+        shell: {
           type: "module",
-          name: "microLogin",
-          entry: "http://localhost:3001/remoteEntry.js",
+          name: "shell",
+          entry: "http://localhost:3000/remoteEntry.js",
         },
-        microSidebar: {
-          type: "module",
-          name: "microSidebar",
-          entry: "http://localhost:3002/remoteEntry.js",
-        },
-        microCart: {
-          type: "module",
-          name: "microCart",
-          entry: "http://localhost:3003/remoteEntry.js",
-        },
+      },
+      exposes: {
+        "./Sidebar": "./src/components/Sidebar.jsx",
       },
       shared: {
         react: { singleton: true, requiredVersion: false },
@@ -42,8 +29,8 @@ export default defineConfig({
     }),
   ],
   server: {
-    origin: "http://localhost:3000",
-    port: 3000,
+    origin: "http://localhost:3002",
+    port: 3002,
     strictPort: true,
     cors: true,
     fs: {
@@ -51,4 +38,3 @@ export default defineConfig({
     },
   },
 });
-
