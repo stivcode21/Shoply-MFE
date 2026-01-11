@@ -1,3 +1,54 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 @config "../../../tailwind.config.js";
 @import "tailwindcss";
-@import url("https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=Manrope:wght@400;500;600&display=swap");
+
+@layer base {
+  body {
+    @apply font-sans;
+  }
+}
+
+@layer components {
+  .ux-interactive {
+    cursor: pointer;
+    transition: transform 180ms ease, box-shadow 180ms ease,
+      background-color 180ms ease, border-color 180ms ease, color 180ms ease;
+    will-change: transform, box-shadow;
+  }
+
+  .ux-interactive:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.12);
+  }
+
+  .ux-interactive:active {
+    transform: translateY(0);
+    box-shadow: 0 8px 16px rgba(15, 23, 42, 0.12);
+  }
+
+  .ux-interactive:focus-visible {
+    outline: 2px solid rgba(15, 23, 42, 0.2);
+    outline-offset: 2px;
+  }
+
+  .ux-card {
+    cursor: pointer;
+    transition: transform 180ms ease, box-shadow 180ms ease;
+    will-change: transform, box-shadow;
+  }
+
+  .ux-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.12);
+  }
+
+  .ux-card:active {
+    transform: translateY(0);
+    box-shadow: 0 8px 16px rgba(15, 23, 42, 0.12);
+  }
+
+  .ux-card:has(button:active) {
+    transform: translateY(0);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  }
+}
