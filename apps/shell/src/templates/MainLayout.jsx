@@ -8,7 +8,7 @@ function MainLayout({ header, sidebar, children }) {
 
       <div className="relative z-10 mx-auto flex min-h-screen max-w-340 flex-col gap-6 px-6 pb-6 pt-28">
         <section className="grid gap-6 lg:grid-cols-[260px_1fr]">
-          <aside className="sticky top-28 self-start max-h-[calc(100vh-7rem)] overflow-auto">
+          <aside className="sticky top-28 self-start max-h-[calc(100vh-9rem)] overflow-auto">
             {sidebar}
           </aside>
           {children}
