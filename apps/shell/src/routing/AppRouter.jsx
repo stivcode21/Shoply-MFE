@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "../pages/Home.jsx";
 
 function AppRouter() {
@@ -6,7 +6,7 @@ function AppRouter() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Home />} />
       </Routes>
     </BrowserRouter>
   );

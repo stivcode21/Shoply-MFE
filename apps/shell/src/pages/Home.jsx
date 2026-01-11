@@ -2,12 +2,13 @@ import { Suspense, lazy, useEffect, useState } from "react";
 import { ArrowDownUp, LayoutGrid } from "lucide-react";
 import AuthModal from "../components/AuthModal.jsx";
 import GlobalLoader from "../components/GlobalLoader.jsx";
-import ProductCard from "../components/ProductCard.jsx";
-import products from "../data/products.js";
 import ErrorBoundary from "../utils/ErrorBoundary.jsx";
 import MainLayout from "../templates/MainLayout.jsx";
 import Header from "../components/Header.jsx";
 import { useAuth } from "../auth/useAuth.js";
+import CategorySection from "../templates/CategorySection.jsx";
+import { useAppSelector } from "../store/hooks.js";
+import { selectActiveCategory } from "../store/sidebar/SidebarStore.js";
 
 const RemoteSidebar = lazy(() =>
   import("microSidebar/Sidebar").catch(() => ({
@@ -23,20 +24,18 @@ const RemoteLogin = lazy(() =>
 function Home() {
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const { session } = useAuth();
-  const token = session?.access_token ?? null;
+  const activeCategory = useAppSelector(selectActiveCategory);
 
   useEffect(() => {
-    if (token) {
+    if (session) {
       setIsAuthOpen(false);
     }
-  }, [token]);
+  }, [session]);
 
   return (
     <>
       <MainLayout
-        header={
-          <Header onProfileClick={() => setIsAuthOpen(true)} token={token} />
-        }
+        header={<Header onLoginClick={() => setIsAuthOpen(true)} />}
         sidebar={
           <ErrorBoundary
             fallback={
@@ -61,10 +60,10 @@ function Home() {
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <div className="text-xs font-semibold uppercase tracking-[0.3em] text-[#94a3b8]">
-                Home / Clothes
+                Home / {activeCategory}
               </div>
               <div className="text-lg font-semibold text-[#0f172a]">
-                64 results for clothes
+                {activeCategory} destacados
               </div>
             </div>
             <div className="flex flex-wrap items-center gap-2 text-xs text-[#64748b]">
@@ -79,20 +78,7 @@ function Home() {
             </div>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {products.map((product) => (
-              <ProductCard
-                key={product.id}
-                id={product.id}
-                name={product.name}
-                price={product.price}
-                subtitle={product.subtitle}
-                badge={product.badge}
-                image={product.image}
-                alt={product.alt}
-              />
-            ))}
-          </div>
+          <CategorySection />
         </div>
       </MainLayout>
 
