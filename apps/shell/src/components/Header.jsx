@@ -1,11 +1,17 @@
 import { Heart, Search, ShoppingBag, User } from "lucide-react";
 import shoplyLogo from "/LogoShoply.svg";
+import defaultAvatar from "../assets/avatar-default.svg";
+import { useAuth } from "../auth/useAuth.js";
 import { useAppDispatch, useAppSelector } from "../store/hooks.js";
 import { selectTotalQTY, setOpenCart } from "../store/cart/CartStore.js";
 
-function Header({ onProfileClick, token }) {
+function Header({ onLoginClick }) {
   const dispatch = useAppDispatch();
   const totalQty = useAppSelector(selectTotalQTY);
+  const { session, userName, avatarUrl } = useAuth();
+  const isAuthenticated = Boolean(session);
+  const displayName = userName ?? "Usuario";
+  const resolvedAvatarUrl = avatarUrl ?? defaultAvatar;
 
   return (
     <header className="fixed left-0 right-0 top-0 z-40 mx-auto flex max-w-340 flex-wrap items-center justify-between gap-4 bg-[#f7f5f1]/95 px-6 py-4 backdrop-blur animate-rise">
@@ -45,14 +51,28 @@ function Header({ onProfileClick, token }) {
             </span>
           ) : null}
         </button>
-        <button
-          className="ux-interactive flex items-center gap-2 border rounded-lg border-[#0f172a] bg-[#0f172a] px-4 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white"
-          onClick={onProfileClick}
-          type="button"
-        >
-          <User className="h-4 w-4" />
-          {token ? "Iniciar sesion" : "Perfil"}
-        </button>
+        {isAuthenticated ? (
+          <div className="flex items-center gap-2 rounded-lg border border-[#e6e8eb] bg-white px-3 py-2">
+            <img
+              src={resolvedAvatarUrl}
+              alt={displayName}
+              className="h-8 w-8 rounded-full object-cover"
+              loading="lazy"
+            />
+            <span className="text-sm font-semibold text-[#0f172a]">
+              {displayName}
+            </span>
+          </div>
+        ) : (
+          <button
+            className="ux-interactive flex items-center gap-2 border rounded-lg border-[#0f172a] bg-[#0f172a] px-4 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-white"
+            onClick={onLoginClick}
+            type="button"
+          >
+            <User className="h-4 w-4" />
+            Iniciar sesion
+          </button>
+        )}
       </div>
     </header>
   );
