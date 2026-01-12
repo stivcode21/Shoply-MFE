@@ -1,4 +1,4 @@
-import { X } from "lucide-react";
+import { Info, X } from "lucide-react";
 import { useEffect } from "react";
 
 function AuthModal({ open, onClose, children }) {
@@ -23,6 +23,27 @@ function AuthModal({ open, onClose, children }) {
       role="dialog"
       aria-modal="true"
     >
+      <div className="absolute left-4 right-4 top-4 z-10 flex items-start gap-3 rounded-2xl border border-white/70 bg-white/80 px-4 py-3 text-sm text-[#1e3a8a] shadow-[0_16px_36px_rgba(15,23,42,0.18)] backdrop-blur sm:left-10 sm:right-auto sm:top-10 sm:max-w-md">
+        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#1d4ed8] text-white shadow-[0_8px_18px_rgba(29,78,216,0.35)]">
+          <Info className="h-4 w-4" />
+        </div>
+        <div className="flex flex-col gap-2">
+          <div className="text-[0.65rem] font-semibold uppercase tracking-[0.25em] text-[#1d4ed8]">
+            Demo access
+          </div>
+          <div className="text-sm text-[#0f172a]">
+            Inicia sesion para probar la demo.
+          </div>
+          <div className="flex flex-wrap items-center gap-2 text-xs text-[#1d4ed8]">
+            <span className="rounded-full bg-white px-2 py-1 font-semibold shadow-[0_6px_14px_rgba(30,64,175,0.12)]">
+              Email: test@gmail.com
+            </span>
+            <span className="rounded-full bg-white px-2 py-1 font-semibold shadow-[0_6px_14px_rgba(30,64,175,0.12)]">
+              Clave: 12345678
+            </span>
+          </div>
+        </div>
+      </div>
       <button
         className="absolute inset-0 cursor-default"
         onClick={onClose}
