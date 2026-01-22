@@ -1,30 +1,21 @@
-import { useEffect } from "react";
 import { X } from "lucide-react";
-import {
-  selectCartItems,
-  selectCartState,
-  selectTotalAmount,
-  selectTotalQTY,
-  setClearCartItems,
-  setCloseCart,
-  setDecreaseItemQTY,
-  setGetTotals,
-  setIncreaseItemQTY,
-  setRemoveItemFromCart,
-} from "shell/CartStore";
-import { useAppDispatch, useAppSelector } from "shell/storeHooks";
+import { resolveCartContract } from "@microfront/contracts/cart";
+import CartProvider from "../cart/CartProvider.jsx";
+import { useCart } from "../cart/useCart.js";
 import CartItemRow from "./CartItemRow.jsx";
 
-function CartDrawer() {
-  const dispatch = useAppDispatch();
-  const isOpen = useAppSelector(selectCartState);
-  const items = useAppSelector(selectCartItems);
-  const totalAmount = useAppSelector(selectTotalAmount);
-  const totalQty = useAppSelector(selectTotalQTY);
-
-  useEffect(() => {
-    dispatch(setGetTotals());
-  }, [dispatch, items]);
+function CartDrawerContent() {
+  const {
+    isOpen,
+    items,
+    totalAmount,
+    totalQty,
+    closeCart,
+    clearCart,
+    decreaseItem,
+    increaseItem,
+    removeItem,
+  } = useCart();
 
   return (
     <div
@@ -38,7 +29,7 @@ function CartDrawer() {
         }`}
         type="button"
         aria-label="Cerrar carrito"
-        onClick={() => dispatch(setCloseCart())}
+        onClick={closeCart}
       />
 
       <aside
@@ -58,7 +49,7 @@ function CartDrawer() {
           <button
             className="ux-interactive rounded-lg border border-[#0f172a] px-3 py-2 text-[0.65rem] font-semibold uppercase tracking-[0.2em]"
             type="button"
-            onClick={() => dispatch(setCloseCart())}
+            onClick={closeCart}
           >
             <span className="flex items-center gap-2">
               <X className="h-4 w-4" />
@@ -76,9 +67,9 @@ function CartDrawer() {
               <CartItemRow
                 key={item.id}
                 item={item}
-                onDecrease={() => dispatch(setDecreaseItemQTY(item))}
-                onIncrease={() => dispatch(setIncreaseItemQTY(item))}
-                onRemove={() => dispatch(setRemoveItemFromCart(item))}
+                onDecrease={() => decreaseItem(item)}
+                onIncrease={() => increaseItem(item)}
+                onRemove={() => removeItem(item)}
               />
             ))
           )}
@@ -93,7 +84,7 @@ function CartDrawer() {
             <button
               className="ux-interactive flex-1 rounded-lg border border-[#0f172a] px-4 py-3 text-xs font-semibold uppercase tracking-[0.25em]"
               type="button"
-              onClick={() => dispatch(setClearCartItems())}
+              onClick={clearCart}
               disabled={items.length === 0}
             >
               Vaciar
@@ -109,6 +100,15 @@ function CartDrawer() {
         </div>
       </aside>
     </div>
+  );
+}
+
+function CartDrawer({ cart }) {
+  const cartValue = resolveCartContract(cart);
+  return (
+    <CartProvider cart={cartValue}>
+      <CartDrawerContent />
+    </CartProvider>
   );
 }
 

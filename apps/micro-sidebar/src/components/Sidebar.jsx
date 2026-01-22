@@ -9,9 +9,12 @@ import {
   LogOut,
   Shirt,
 } from "lucide-react";
-import { useAuth } from "shell/useAuth";
-import { useAppDispatch, useAppSelector } from "shell/storeHooks";
-import { selectActiveCategory, setActiveCategory } from "shell/SidebarStore";
+import { resolveAuthContract } from "@microfront/contracts/auth";
+import { resolveSidebarContract } from "@microfront/contracts/sidebar";
+import AuthProvider from "../auth/AuthProvider.jsx";
+import { useAuth } from "../auth/useAuth.js";
+import SidebarProvider from "../sidebar/SidebarProvider.jsx";
+import { useSidebar } from "../sidebar/useSidebar.js";
 
 const categories = [
   { id: "camisas", label: "Camisas", icon: Shirt },
@@ -24,10 +27,9 @@ const categories = [
 
 const sortOptions = ["Popularidad", "Nuevos", "Precio alto", "Precio bajo"];
 
-function Sidebar() {
-  const dispatch = useAppDispatch();
-  const activeCategory = useAppSelector(selectActiveCategory);
-  const { session, userName, signOut } = useAuth();
+function SidebarContent() {
+  const { activeCategory, setActiveCategory } = useSidebar();
+  const { session, signOut } = useAuth();
   const isAuthenticated = Boolean(session);
 
   const handleSignOut = async () => {
@@ -62,7 +64,7 @@ function Sidebar() {
                     : "border-[#eef1f4] bg-white text-[#0f172a]"
                 }`}
                 type="button"
-                onClick={() => dispatch(setActiveCategory(category.id))}
+                onClick={() => setActiveCategory(category.id)}
               >
                 <span className="flex items-center gap-2">
                   <Icon className="h-4 w-4" />
@@ -127,6 +129,19 @@ function Sidebar() {
         </div>
       ) : null}
     </aside>
+  );
+}
+
+function Sidebar({ auth, sidebar }) {
+  const authValue = resolveAuthContract(auth);
+  const sidebarValue = resolveSidebarContract(sidebar);
+
+  return (
+    <AuthProvider auth={authValue}>
+      <SidebarProvider sidebar={sidebarValue}>
+        <SidebarContent />
+      </SidebarProvider>
+    </AuthProvider>
   );
 }
 

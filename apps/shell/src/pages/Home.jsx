@@ -6,9 +6,9 @@ import ErrorBoundary from "../utils/ErrorBoundary.jsx";
 import MainLayout from "../templates/MainLayout.jsx";
 import Header from "../components/Header.jsx";
 import { useAuth } from "../auth/useAuth.js";
+import { useAuthContract } from "../auth/useAuthContract.js";
 import CategorySection from "../templates/CategorySection.jsx";
-import { useAppSelector } from "../store/hooks.js";
-import { selectActiveCategory } from "../store/sidebar/SidebarStore.js";
+import { useSidebarContract } from "../store/sidebar/useSidebarContract.js";
 
 const RemoteSidebar = lazy(() =>
   import("microSidebar/Sidebar").catch(() => ({
@@ -24,7 +24,9 @@ const RemoteLogin = lazy(() =>
 function Home() {
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const { session } = useAuth();
-  const activeCategory = useAppSelector(selectActiveCategory);
+  const authAdapter = useAuthContract();
+  const sidebarAdapter = useSidebarContract();
+  const { activeCategory } = sidebarAdapter;
 
   useEffect(() => {
     if (session) {
@@ -51,7 +53,7 @@ function Home() {
                 </div>
               }
             >
-              <RemoteSidebar />
+              <RemoteSidebar auth={authAdapter} sidebar={sidebarAdapter} />
             </Suspense>
           </ErrorBoundary>
         }
@@ -84,7 +86,7 @@ function Home() {
 
       <AuthModal open={isAuthOpen} onClose={() => setIsAuthOpen(false)}>
         <Suspense fallback={<GlobalLoader label="Cargando login..." />}>
-          <RemoteLogin />
+          <RemoteLogin auth={authAdapter} />
         </Suspense>
       </AuthModal>
     </>

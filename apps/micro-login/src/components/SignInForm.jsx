@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { useAuth } from "shell/useAuth";
+import { useAuth } from "../auth/useAuth.js";
 
 function SignInForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { signInWithPassword } = useAuth();
+  const { signIn } = useAuth();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -14,7 +14,7 @@ function SignInForm() {
     const normalizedPassword = password.trim();
 
     setIsSubmitting(true);
-    const { error: signInError } = await signInWithPassword({
+    const { error: signInError } = await signIn({
       email: normalizedEmail,
       password: normalizedPassword,
     });
