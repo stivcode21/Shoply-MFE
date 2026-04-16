@@ -1,12 +1,12 @@
  Microfront Shoply
-=================
+================= 
 
 Monorepo de microfrontends con Vite + Module Federation. El shell centraliza
 autenticacion (Supabase) y el estado global (Redux) para que los MFEs solo
 consuman lo necesario. Incluye un carrito remoto con modal derecho y un login
 remoto.
 
-Apps
+Apps.
 ----
 - shell (host) -> http://localhost:3000
 - micro-login (remote) -> http://localhost:3001
