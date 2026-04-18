@@ -1,4 +1,4 @@
- Microfront Shoply
+  Microfront Shoply
 ================= 
 
 Monorepo de microfrontends con Vite + Module Federation. El shell centraliza
